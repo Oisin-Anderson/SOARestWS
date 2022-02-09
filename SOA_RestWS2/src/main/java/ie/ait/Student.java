@@ -9,6 +9,7 @@ public class Student {
     private String name;
     private String address;
     private String course;
+    private static int nextId = 0;
     
     public Student (int id, String name, String address, String course) {
         this.id = id;
@@ -25,7 +26,9 @@ public class Student {
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id = Student.nextId;
+        
+        Student.nextId++;
     }
 
     public String getName() {

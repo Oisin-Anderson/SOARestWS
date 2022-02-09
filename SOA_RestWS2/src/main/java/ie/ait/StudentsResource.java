@@ -33,7 +33,7 @@ public class StudentsResource {
     @Produces({MediaType.TEXT_HTML})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public void postStudent(@FormParam("id") int id,
-            @FormParam("id") String name,
+            @FormParam("name") String name,
             @FormParam("address") String address,
             @FormParam("course") String course,
             @Context HttpServletResponse servletResponse) throws IOException {
@@ -43,6 +43,24 @@ public class StudentsResource {
                    student.setName(name);
                    student.setAddress(address);
                    StudentDao.instance.create(student);
+                   servletResponse.sendRedirect("../index.html");
+            }
+    
+    @PUT
+    @Produces({MediaType.TEXT_HTML})
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public void putStudent(@FormParam("id") int id,
+            @FormParam("name") String name,
+            @FormParam("address") String address,
+            @FormParam("course") String course,
+            @Context HttpServletResponse servletResponse) throws IOException {
+                   Student student = new Student();
+                   student.setId(id);
+                   student.getId();
+                   
+                   student.setCourse(course);
+                   student.setName(name);
+                   student.setAddress(address);
                    servletResponse.sendRedirect("../index.html");
             }
     

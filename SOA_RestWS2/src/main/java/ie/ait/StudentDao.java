@@ -17,18 +17,18 @@ public enum StudentDao{
     
     private StudentDao() {
         Student student = new Student();
-        student.setId(1);
+        student.setId(0);
         student.setCourse("Software");
         student.setName("Joe Bloggs");
         student.setAddress("Location");
-        studentsMap.put(1, student);
+        studentsMap.put(0, student);
         
         Student student1 = new Student();
         student1.setId(1);
         student1.setCourse("Software");
         student1.setName("Joe Bloggs");
         student1.setAddress("Location");
-        studentsMap.put(2, student1);
+        studentsMap.put(1, student1);
     }
     
     public List<Student> getStudents() {
