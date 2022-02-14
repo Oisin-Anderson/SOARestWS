@@ -45,6 +45,10 @@ public enum StudentDao{
         studentsMap.put(student.getId(), student);
     }
     
+    public void edit(Student student) {
+        studentsMap.put(student.getId(), student);
+    }
+    
     public void delete(int id) {
         if (studentsMap.remove(id) != null) {
             System.out.print("Removed");
@@ -52,6 +56,11 @@ public enum StudentDao{
         else {
             System.out.print("Not removed");
         }
+    }
+    
+    
+    public void deleteStudents() {
+        studentsMap.clear();
     }
             
 }
