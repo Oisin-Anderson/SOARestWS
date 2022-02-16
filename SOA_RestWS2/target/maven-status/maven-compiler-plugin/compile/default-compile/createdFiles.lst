@@ -1,5 +1,4 @@
 ie\ait\ItemsResource.class
-ie\ait\StudentDao.class
 ie\ait\Student.class
+ie\ait\StudentDao.class
 ie\ait\ApplicationConfig.class
-ie\ait\StudentsResource.class

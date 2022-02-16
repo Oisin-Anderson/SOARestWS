@@ -1,66 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ie.ait;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public enum StudentDao{
+
+public enum StudentDao {
     
     instance;
     
-    private Map<Integer, Student> studentsMap = new HashMap<Integer, Student>();
+    private Connection con = null;
     
-    private StudentDao() {
-        Student student = new Student();
-        student.setId(0);
-        student.setCourse("Software");
-        student.setName("Joe Bloggs");
-        student.setAddress("Location");
-        studentsMap.put(0, student);
-        
-        Student student1 = new Student();
-        student1.setId(1);
-        student1.setCourse("Software");
-        student1.setName("Joe Bloggs");
-        student1.setAddress("Location");
-        studentsMap.put(1, student1);
+    private StudentDao(){
+        try{
+            System.out.println("Loading DB Driver....");
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            System.out.println("DB Driver Loaded");
+            
+            con = DriverManager.getConnection(
+                    "jdbc:derby://localhost:1527/sample",
+                    "billy",
+                    "billy");
+            
+        }catch (ClassNotFoundException ex){
+            System.err.println("\nClassNotFoundException");
+            ex.printStackTrace();
+        }catch (SQLException ex){
+            System.err.println("\nSQLException");
+            ex.printStackTrace();
+        }
     }
     
-    public List<Student> getStudents() {
+    
+    public List<Student> getStudents(){
+        
         List<Student> students = new ArrayList<Student>();
-        students.addAll(studentsMap.values());
+        try{
+            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM student");
+            ResultSet rs = pstmt.executeQuery();
+            
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String address = rs.getString("address");
+                String course = rs.getString("course");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return students;
     }
     
-    public Student getStudent(int id) {
-        return studentsMap.get(id);
-    }
     
-    public void create(Student student) {
-        studentsMap.put(student.getId(), student);
-    }
-    
-    public void edit(Student student) {
-        studentsMap.put(student.getId(), student);
-    }
-    
-    public void delete(int id) {
-        if (studentsMap.remove(id) != null) {
-            System.out.print("Removed");
-        }
-        else {
-            System.out.print("Not removed");
-        }
-    }
-    
-    
-    public void deleteStudents() {
-        studentsMap.clear();
-    }
-            
 }

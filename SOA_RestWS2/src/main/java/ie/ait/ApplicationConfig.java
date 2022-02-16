@@ -25,7 +25,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(ie.ait.ItemsResource.class);
-        resources.add(ie.ait.StudentsResource.class);
+        resources.add(ie.ait.StudentResource.class);
     }
     
 }
