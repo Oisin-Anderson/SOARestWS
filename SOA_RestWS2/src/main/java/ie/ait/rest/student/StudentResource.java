@@ -1,5 +1,7 @@
-package ie.ait;
+package ie.ait.rest.student;
 
+import ie.ait.dao.student.Student;
+import ie.ait.dao.student.StudentDao;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
