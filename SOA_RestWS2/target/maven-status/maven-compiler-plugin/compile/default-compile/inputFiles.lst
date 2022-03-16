@@ -1,7 +1,10 @@
-C:\Users\a00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\StudentDao.java
-C:\Users\a00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\StudentsResource_OLD.java
-C:\Users\a00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\Student.java
-C:\Users\a00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\StudentDao_OLD.java
-C:\Users\a00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\StudentResource.java
-C:\Users\a00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\ItemsResource.java
-C:\Users\a00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\ApplicationConfig.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\dao\student\StudentDao.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\rest\student\StudentResource.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\dao\student\StudentDao_OLD.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\rest\bank\BankResource.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\rest\student\StudentsResource_OLD.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\dao\bank\BankDao.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\ItemsResource.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\dao\student\Student.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\ApplicationConfig.java
+C:\Users\A00260168\Documents\GitHub\SOARestWS\SOA_RestWS2\src\main\java\ie\ait\dao\bank\BankAccount.java
