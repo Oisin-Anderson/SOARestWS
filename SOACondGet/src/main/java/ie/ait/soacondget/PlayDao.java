@@ -90,6 +90,69 @@ public enum PlayDao {
         
         return players;
     }
+
+    public void create(PlayAccount player) {
+        try {
+            PreparedStatement pstmt = con.prepareStatement("INSERT INTO players VALUES(?,?,?,?)");
+            pstmt.setInt(1, player.getId());
+            pstmt.setString(2, player.getPname());
+            pstmt.setInt(3, player.getGoals());
+            pstmt.setString(4, player.getTimestamp());
+
+            int count = pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println("\nSQLException");
+            ex.printStackTrace();
+        }
+    }
+
+    public void delete(int id) {
+        try {
+            PreparedStatement pstmt = con.prepareStatement("DELETE FROM players WHERE ID = ?");
+            pstmt.setInt(1, id);
+            
+
+            int count = pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println("\nSQLException");
+            ex.printStackTrace();
+        }
+    }
+    
+    public void deleteAll() {
+        try {
+            PreparedStatement pstmt = con.prepareStatement("DELETE * FROM players");
+            
+            int count = pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println("\nSQLException");
+            ex.printStackTrace();
+        }
+    }
+
+    public int getNextId() {
+
+        int maxId = 0;
+
+        try {
+            PreparedStatement pstmt = con.prepareStatement("SELECT max(id) FROM players");
+
+            ResultSet rs = pstmt.executeQuery();
+
+            rs.next();
+
+            maxId = rs.getInt(1);
+
+        } catch (SQLException ex) {
+            System.err.println("\nSQLException");
+            ex.printStackTrace();
+        }
+
+        return maxId + 1;
+    }
     
     
 }
