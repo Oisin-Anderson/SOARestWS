@@ -1,7 +1,5 @@
 package ie.ait.soacondget;
 
-import ie.ait.soacondget.PlayAccount;
-import ie.ait.soacondget.PlayDao;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,8 +12,9 @@ import javax.ws.rs.core.MediaType;
 public class PlayResource {
    
     @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<PlayAccount> getAllPlayers() {
+        System.out.println("GetPlayers");
         return PlayDao.instance.getAllPlayers();
     }
     
@@ -23,7 +22,8 @@ public class PlayResource {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("{playerID}")
     public PlayAccount getPlayer(@PathParam("playerID") String playerID) {
-        return PlayDao.instance.getPlayer(playerID);
+        System.out.println("GetPlayer");
+        return PlayDao.instance.getPlayer(Integer.parseInt(playerID));
     }
     
 }

@@ -1,6 +1,5 @@
 package ie.ait.soacondget;
 
-import ie.ait.soacondget.PlayAccount;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public enum PlayDao {
@@ -25,7 +22,7 @@ public enum PlayDao {
             System.out.println("DB Driver Loaded");
             
             con = DriverManager.getConnection(
-                    "jdbc:derby://localhost:1527/sample",
+                    "jdbc:derby://localhost:1527/soacondget",
                     "billy",
                     "billy");
             
@@ -39,23 +36,32 @@ public enum PlayDao {
     }
     
     
-    public PlayAccount getPlayer(String playerID){
+    public PlayAccount getPlayer(int playerID){
         
-        PlayAccount player = new PlayAccount();
+        PlayAccount player = null;
         try{
-            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM players where id = " + playerID + ";");
+            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM players where id = ?");
+            pstmt.setString(1, Integer.toString(playerID));
+            
             ResultSet rs = pstmt.executeQuery();
             
-            while(rs.next()){
-                player.setId(rs.getInt("id"));
-                player.setPname(rs.getString("pname"));
-                player.setGoals(rs.getInt("goals"));
-                player.setTimestamp(rs.getString("TIMESTAMP"));
+            if (!rs.next()){
+                return null;
             }
+            
+            int id = rs.getInt("id");
+            String pname = rs.getString("pname");
+            int goals = rs.getInt("goals");
+            String timestamp = rs.getString("TIMESTAMP");
+
+            player = new PlayAccount(id, pname, goals, timestamp);
+                
         } catch (SQLException ex) {
-            Logger.getLogger(PlayDao.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("\nSQLException");
+            ex.printStackTrace();
         }
         
+        System.out.println(player);
         return player;
     }
     
@@ -72,10 +78,15 @@ public enum PlayDao {
                 String pname = rs.getString("pname");
                 int goals = rs.getInt("goals");
                 String timestamp = rs.getString("TIMESTAMP");
+                
+                players.add(new PlayAccount(id, pname, goals, timestamp));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PlayDao.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("\nSQLException");
+            ex.printStackTrace();
         }
+        
+        System.out.println(players);
         
         return players;
     }
