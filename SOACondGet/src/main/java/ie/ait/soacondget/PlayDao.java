@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +37,12 @@ public enum PlayDao {
     }
     
     
-    public PlayAccount getPlayer(int playerID){
+    public PlayAccount getPlayer(String playerID){
         
         PlayAccount player = null;
         try{
-            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM players where id = ?");
-            pstmt.setString(1, Integer.toString(playerID));
+            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM players where ID = ?");
+            pstmt.setString(1, playerID);
             
             ResultSet rs = pstmt.executeQuery();
             
@@ -52,7 +53,7 @@ public enum PlayDao {
             int id = rs.getInt("id");
             String pname = rs.getString("pname");
             int goals = rs.getInt("goals");
-            String timestamp = rs.getString("TIMESTAMP");
+            Timestamp timestamp = rs.getTimestamp("TIMESTAMP");
 
             player = new PlayAccount(id, pname, goals, timestamp);
                 
@@ -77,7 +78,7 @@ public enum PlayDao {
                 int id = rs.getInt("id");
                 String pname = rs.getString("pname");
                 int goals = rs.getInt("goals");
-                String timestamp = rs.getString("TIMESTAMP");
+                Timestamp timestamp = rs.getTimestamp("TIMESTAMP");
                 
                 players.add(new PlayAccount(id, pname, goals, timestamp));
             }
@@ -97,7 +98,7 @@ public enum PlayDao {
             pstmt.setInt(1, player.getId());
             pstmt.setString(2, player.getPname());
             pstmt.setInt(3, player.getGoals());
-            pstmt.setString(4, player.getTimestamp());
+            pstmt.setTimestamp(4, player.getTimestamp());
 
             int count = pstmt.executeUpdate();
 
@@ -123,7 +124,7 @@ public enum PlayDao {
     
     public void deleteAll() {
         try {
-            PreparedStatement pstmt = con.prepareStatement("DELETE * FROM players");
+            PreparedStatement pstmt = con.prepareStatement("DELETE FROM players");
             
             int count = pstmt.executeUpdate();
 
@@ -152,6 +153,22 @@ public enum PlayDao {
         }
 
         return maxId + 1;
+    }
+
+    public void update(PlayAccount player) {
+        try {
+            PreparedStatement pstmt = con.prepareStatement("UPDATE players SET pname = ?, goals = ?, timestamp = ? WHERE id = ?");
+            pstmt.setInt(4, player.getId());
+            pstmt.setString(1, player.getPname());
+            pstmt.setInt(2, player.getGoals());
+            pstmt.setTimestamp(3, player.getTimestamp());
+
+            int count = pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.err.println("\nSQLException");
+            ex.printStackTrace();
+        }
     }
     
     

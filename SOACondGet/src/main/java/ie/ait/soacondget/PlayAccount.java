@@ -1,5 +1,6 @@
 package ie.ait.soacondget;
 
+import java.sql.Timestamp;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -9,9 +10,9 @@ public class PlayAccount {
     private int id;
     private String pname;
     private int goals;
-    private String timestamp;
+    private Timestamp timestamp;
     
-    public PlayAccount (int id, String pname, int goals, String timestamp) {
+    public PlayAccount (int id, String pname, int goals, Timestamp timestamp) {
         this.id = id;
         this.pname = pname;
         this.goals = goals;
@@ -45,11 +46,11 @@ public class PlayAccount {
         this.goals = goals;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

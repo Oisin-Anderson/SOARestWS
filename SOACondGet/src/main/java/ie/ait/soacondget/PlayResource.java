@@ -1,6 +1,7 @@
 package ie.ait.soacondget;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -32,24 +33,24 @@ public class PlayResource {
     }
     
     @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("{playerID}")
     public PlayAccount getPlayer(@PathParam("playerID") String playerID) {
         System.out.println("GetPlayer");
-        return PlayDao.instance.getPlayer(Integer.parseInt(playerID));
+        return PlayDao.instance.getPlayer(playerID);
     }
 
     
     @POST
-    @Produces(MediaType.TEXT_HTML)
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void postBook(
+    public PlayAccount postPlayer(
             @FormParam("pname") String pname,
             @FormParam("goals") int goals,
-            @FormParam("timestamp") String timestamp,
             @Context HttpServletResponse servletResponse) throws IOException {
 
         PlayAccount player = new PlayAccount();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         int id = PlayDao.instance.getNextId();
         player.setId(id);
@@ -57,18 +58,19 @@ public class PlayResource {
         player.setGoals(goals);
         player.setTimestamp(timestamp);
         PlayDao.instance.create(player);
-        servletResponse.sendRedirect("../index.html");
+        
+        return PlayDao.instance.getPlayer(Integer.toString(id));
     }
     
     
     @DELETE
     @Produces(MediaType.TEXT_HTML)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response deleteAllStudents(
+    public Response deleteAllPlayers(
             @Context HttpServletResponse servletResponse) throws IOException {
 
         PlayDao.instance.deleteAll();
-        return Response.status(200).entity("Operation Successful").build();
+        return Response.status(200).entity("Players have all been Deleted.").build();
     }
     
 
@@ -100,22 +102,22 @@ public class PlayResource {
 
     
     @PUT
-    @Produces(MediaType.TEXT_HTML)
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("{playerID}")
-    public void putBook(@PathParam("playerID") String id,
+    public PlayAccount putPlayer(@PathParam("playerID") String id,
             @FormParam("pname") String pname,
             @FormParam("goals") int goals,
-            @FormParam("timestamp") String timestamp,
             @Context HttpServletResponse servletResponse) throws IOException {
 
         PlayAccount player = new PlayAccount();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         player.setId(Integer.parseInt(id));
         player.setPname(pname);
         player.setGoals(goals);
         player.setTimestamp(timestamp);
-        PlayDao.instance.create(player);
-        servletResponse.sendRedirect("../index.html");
+        PlayDao.instance.update(player);
+        return PlayDao.instance.getPlayer(id);
     }
 
     
@@ -123,11 +125,11 @@ public class PlayResource {
     @Produces(MediaType.TEXT_HTML)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("{playerID}")
-    public Response deleteBook(@PathParam("playerID") String id,
+    public Response deletePlayer(@PathParam("playerID") String id,
             @Context HttpServletResponse servletResponse) throws IOException {
 
         PlayDao.instance.delete(Integer.parseInt(id));
-        return Response.status(200).entity("Operation Successful").build();
+        return Response.status(200).entity("Selected Player has been Deleted.").build();
     }
     
 }
