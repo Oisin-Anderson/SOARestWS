@@ -25,7 +25,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(ie.ait.ItemsResource.class);
-        resources.add(ie.ait.rest.bank.BankResource.class
+        resources.add(ie.ait.rest.bank.BankResource.class);
         resources.add(ie.ait.rest.student.StudentResource.class);
         resources.add(ie.ait.rest.student.StudentsResource_OLD.class);
     }

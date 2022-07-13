@@ -17,6 +17,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,28 +28,30 @@ public class PlayResource {
    
     @GET
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public List<PlayAccount> getAllPlayers() {
+    public Response getAllPlayers() {
         System.out.println("GetPlayers");
-        return PlayDao.instance.getAllPlayers();
+        return Response.status(200).entity(PlayDao.instance.getAllPlayers()).build();
     }
     
     @GET
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("{playerID}")
-    public PlayAccount getPlayer(@PathParam("playerID") String playerID) {
+    public Response getPlayer(@PathParam("playerID") String playerID) {
         System.out.println("GetPlayer");
-        return PlayDao.instance.getPlayer(playerID);
+        return Response.status(200).entity(PlayDao.instance.getPlayer(playerID)).build();
     }
 
     
     @POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public PlayAccount postPlayer(
+    public Response postPlayer(
             @FormParam("pname") String pname,
-            @FormParam("goals") int goals,
+            @FormParam("goals") String goal,
             @Context HttpServletResponse servletResponse) throws IOException {
-
+        
+        System.out.println(pname + " ," + goal);
+        int goals = Integer.parseInt(goal);
         PlayAccount player = new PlayAccount();
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
@@ -59,7 +62,7 @@ public class PlayResource {
         player.setTimestamp(timestamp);
         PlayDao.instance.create(player);
         
-        return PlayDao.instance.getPlayer(Integer.toString(id));
+        return Response.status(200).build();
     }
     
     
@@ -101,23 +104,31 @@ public class PlayResource {
     }
 
     
-    @PUT
+    @POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("{playerID}")
-    public PlayAccount putPlayer(@PathParam("playerID") String id,
-            @FormParam("pname") String pname,
-            @FormParam("goals") int goals,
+    @Path("put")
+    public Response putPlayer(
+            @FormParam("eid") String id,
+            @FormParam("epname") String pname,
+            @FormParam("egoals") String goal,
             @Context HttpServletResponse servletResponse) throws IOException {
-
-        PlayAccount player = new PlayAccount();
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        player.setId(Integer.parseInt(id));
-        player.setPname(pname);
-        player.setGoals(goals);
-        player.setTimestamp(timestamp);
-        PlayDao.instance.update(player);
-        return PlayDao.instance.getPlayer(id);
+        
+        int goals = Integer.parseInt(goal);
+        PlayAccount check = PlayDao.instance.getPlayer(id);
+        
+        if(check != null){
+            PlayAccount player = new PlayAccount();
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            player.setId(Integer.parseInt(id));
+            player.setPname(pname);
+            player.setGoals(goals);
+            player.setTimestamp(timestamp);
+            PlayDao.instance.update(player);
+            return Response.status(200).build();
+        }
+        
+        return Response.status(304).build();
     }
 
     
